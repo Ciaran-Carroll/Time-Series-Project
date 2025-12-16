@@ -41,7 +41,7 @@ The code provides a complete pipeline for:
    - **Model Comparison** (`compare_models`): Evaluates performance metrics (RMSE, MAE, MAPE, AIC, BIC)
 5. **Main Execution Flow**
    When run from the command line:
-   ```python
+   ```bash
    python Time-Series.py AAPL 2015-01-01 2024-12-31 --arima --sarima
    ```
    1. Downloads AAPL data from 2015-2024
