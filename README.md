@@ -1,3 +1,5 @@
+This project will implement and rigorously compare an ARIMA model—suited for non-seasonal data—against a SARIMA model, which incorporates seasonal components. By evaluating their performance on S&P 500 price data, we will determine which model provides more accurate and reliable forecasts.
+
 The script implements the following workflow.
 
 1. Download data → Visualise
