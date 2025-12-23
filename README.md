@@ -1,88 +1,265 @@
-This project will implement and rigorously compare an ARIMA model—suited for non-seasonal data—against a SARIMA model, which incorporates seasonal components. By evaluating their performance on S&P 500 price data, we will determine which model provides more accurate and reliable forecasts.
-
-The script implements the following workflow.
-
-1. Download data → Visualise
-2. Check stationarity → Difference if needed
-3. ACF/PACF → Suggest p,q values
-4. Fit ARIMA/SARIMA → Compare metrics
-5. Forecast → Visualise predictions
-
-This is a comprehensive time series analysis tool for stock data built with Python.
-
-### Overview
-The code provides a complete pipeline for:
-1. Downloading historical stock data
-2. Performing technical analysis with common indicators
-3. Implementing ARIMA/SARIMA forecasting models
-4. Visualising results
-
-### Main Components
-1. **Data Download** (`download_stock_data`)
-   - Uses `yfinance` to fetch stock data
-   - Handles errors and empty data gracefully
-   - Optionally saves to CSV
-2. **Technical Analysis Functions**
-   - **Moving Averages** (`calculate_moving_averages`): Calculates SMA for common windows (20, 50, 200 days)
-   - **Returns** (`calculate_returns`): Computes daily and period returns
-   - **Volatility** (`calculate_volatility`): Rolling standard deviation (annualised)
-   - **RSI** (`calculate_rsi`): Relative Strength Index for overbought/oversold signals
-   - **Bollinger Bands** (`calculate_bollinger_bands`): Price volatility bands
-   - **Trend Detection** (`detect_trend`): Identifies bullish/bearish trends using MA crossovers
-3. **Visualisation Functions**
-   - `plot_stock_data`: Basic price and volume chart
-   - `plot_timeseries_analysis`: Comprehensive view with indicators
-   - Professional formatting with date axes, currency formatting, and volume scaling
-4. **Time Series Modelling (ARIMA/SARIMA)**
-   - **Stationarity Testing** (`check_stationarity`): Augmented Dickey-Fuller test
-   - **Parameter Identification** (`plot_acf_pacf`): ACF/PACF plots for AR/MA order selection
-   - **Model Fitting:**
-      - `fit_arima_model`: Standard ARIMA implementation
-      - `fit_sarima_model`: Seasonal ARIMA with seasonal components
-   - **Auto-selection** (`auto_arima_selection`): Grid search for optimal parameters
-   - **Model Comparison** (`compare_models`): Evaluates performance metrics (RMSE, MAE, MAPE, AIC, BIC)
-5. **Main Execution Flow**
-   When run from the command line:
-   ```bash
-   python Time-Series.py AAPL 2015-01-01 2024-12-31 --arima --sarima
-   ```
-   1. Downloads AAPL data from 2015-2024
-   2. Applies all technical indicators
-   3. Generates visualisations
-   4. If flags specified:
-      - Checks stationarity
-      - Plots ACF/PACF
-      - Fits ARIMA/SARIMA models
-      - Compares performance
-      - Generates forecasts
-
-### Key Features
-- **Modular Design:** Each function handles a specific task
-- **Error Handling:** Graceful handling of download/processing errors
-- **Flexible Input:** Command-line arguments with multiple options
-- **Professional Output:** Well-formatted charts and summary statistics
-- **Model Evaluation:** Multiple metrics for comparing forecasting performance
-
-#### Use Cases
-1. **Technical Analysis:** Calculate and visualise common trading indicators
-2. **Trend Analysis:** Identify market trends using moving averages
-3. **Volatility Assessment:** Measure and monitor price volatility
-4. **Price Forecasting:** Predict future prices using ARIMA/SARIMA models
-5. **Model Comparison:** Evaluate different forecasting approaches
-
-#### Dependencies Required
-- `yfinance`: Data download
-- `pandas`, `numpy`: Data manipulation
-- `matplotlib`: Visualisation
-- `statsmodels`: Time series modelling
-- `scikit-learn`: Model evaluation metrics
-
-This is a production-ready toolkit for stock market analysis that combines traditional technical analysis with modern statistical forecasting methods.
-
 # Time-Series Analysis Program - Complete Explanation
 
 ## Overview
 This is a comprehensive stock market analysis and forecasting tool that downloads historical stock data, performs technical analysis, and uses multiple forecasting models to predict future prices.
+
+---
+
+## Installation & Dependencies
+
+### Required Python Version
+- **Python 3.8 or higher** recommended
+- The program uses f-strings and modern type hints
+
+### Installing Dependencies
+
+**Option 1: Using pip (recommended)**
+```bash
+pip install yfinance matplotlib pandas numpy statsmodels scikit-learn
+```
+
+**Option 2: Using a requirements.txt file**
+
+Create a file named `requirements.txt` with the following content:
+```
+yfinance>=0.2.3
+matplotlib>=3.5.0
+pandas>=1.4.0
+numpy>=1.21.0
+statsmodels>=0.13.0
+scikit-learn>=1.0.0
+```
+
+Then install with:
+```bash
+pip install -r requirements.txt
+```
+
+**Option 3: Using conda**
+```bash
+conda install -c conda-forge yfinance matplotlib pandas numpy statsmodels scikit-learn
+```
+
+### Dependency Breakdown
+
+**1. yfinance** (`import yfinance as yf`)
+- **Purpose:** Downloads historical stock data from Yahoo Finance
+- **Used for:** Getting OHLCV (Open, High, Low, Close, Volume) data
+- **Version:** 0.2.3 or higher recommended
+- **Installation:** `pip install yfinance`
+
+**2. matplotlib** (`from matplotlib import pyplot as plt`)
+- **Purpose:** Creates all visualizations and charts
+- **Used for:** Price charts, technical indicator plots, forecast visualizations
+- **Submodules used:**
+  - `matplotlib.pyplot` - Main plotting interface
+  - `matplotlib.dates` - Date formatting on x-axes
+  - `matplotlib.ticker.FuncFormatter` - Custom axis formatting
+- **Version:** 3.5.0 or higher
+- **Installation:** `pip install matplotlib`
+
+**3. pandas** (`import pandas as pd`)
+- **Purpose:** Data manipulation and time-series handling
+- **Used for:** DataFrame operations, date indexing, data cleaning
+- **Version:** 1.4.0 or higher
+- **Installation:** `pip install pandas`
+
+**4. numpy** (`import numpy as np`)
+- **Purpose:** Numerical computations and array operations
+- **Used for:** Mathematical calculations, statistical functions
+- **Version:** 1.21.0 or higher
+- **Installation:** `pip install numpy`
+
+**5. statsmodels** (multiple imports)
+- **Purpose:** Statistical modeling and time-series analysis
+- **Used for:** ARIMA, SARIMA, Exponential Smoothing models
+- **Submodules used:**
+  - `statsmodels.tsa.arima.model.ARIMA` - ARIMA modeling
+  - `statsmodels.tsa.statespace.sarimax.SARIMAX` - SARIMA modeling
+  - `statsmodels.tsa.holtwinters` - Exponential smoothing (SES, Holt, Holt-Winters)
+  - `statsmodels.tsa.stattools.adfuller` - Stationarity testing
+  - `statsmodels.graphics.tsaplots` - ACF/PACF plotting
+- **Version:** 0.13.0 or higher
+- **Installation:** `pip install statsmodels`
+
+**6. scikit-learn** (`from sklearn.metrics import ...`)
+- **Purpose:** Model evaluation metrics
+- **Used for:** Calculating RMSE, MAE for model performance
+- **Functions used:**
+  - `mean_squared_error` - Calculate MSE/RMSE
+  - `mean_absolute_error` - Calculate MAE
+- **Version:** 1.0.0 or higher
+- **Installation:** `pip install scikit-learn`
+
+**7. sys and warnings** (Built-in Python modules)
+- **sys:** Command-line argument parsing
+- **warnings:** Suppress non-critical warnings from models
+- **No installation needed** - Part of Python standard library
+
+### System Requirements
+
+**Minimum:**
+- CPU: Any modern processor (1 GHz+)
+- RAM: 2 GB
+- Storage: 100 MB free space
+- Internet: Required for downloading stock data
+
+**Recommended:**
+- CPU: Multi-core processor (for faster model fitting)
+- RAM: 4 GB or more
+- Storage: 500 MB (for caching multiple stocks)
+- Internet: Stable connection (1 Mbps+)
+
+### Verifying Installation
+
+Create a test script `check_dependencies.py`:
+```python
+def check_dependencies():
+    dependencies = {
+        'yfinance': 'yfinance',
+        'matplotlib': 'matplotlib',
+        'pandas': 'pandas',
+        'numpy': 'numpy',
+        'statsmodels': 'statsmodels',
+        'scikit-learn': 'sklearn'
+    }
+    
+    print("Checking dependencies...\n")
+    all_installed = True
+    
+    for name, import_name in dependencies.items():
+        try:
+            module = __import__(import_name)
+            version = getattr(module, '__version__', 'unknown')
+            print(f"✓ {name:15s} - Version {version}")
+        except ImportError:
+            print(f"✗ {name:15s} - NOT INSTALLED")
+            all_installed = False
+    
+    if all_installed:
+        print("\n✓ All dependencies installed successfully!")
+    else:
+        print("\n✗ Some dependencies missing. Run: pip install -r requirements.txt")
+    
+    return all_installed
+
+if __name__ == "__main__":
+    check_dependencies()
+```
+
+Run it with:
+```bash
+python check_dependencies.py
+```
+
+Expected output:
+```
+Checking dependencies...
+
+✓ yfinance        - Version 0.2.38
+✓ matplotlib      - Version 3.8.2
+✓ pandas          - Version 2.1.4
+✓ numpy           - Version 1.26.3
+✓ statsmodels     - Version 0.14.1
+✓ scikit-learn    - Version 1.3.2
+
+✓ All dependencies installed successfully!
+```
+
+### Troubleshooting Common Installation Issues
+
+**Issue 1: "No module named 'yfinance'"**
+```bash
+# Solution:
+pip install --upgrade yfinance
+```
+
+**Issue 2: Matplotlib won't display charts**
+```bash
+# On Linux, you might need:
+sudo apt-get install python3-tk
+
+# On macOS:
+brew install python-tk
+```
+
+**Issue 3: statsmodels installation fails**
+```bash
+# Try upgrading pip first:
+pip install --upgrade pip setuptools wheel
+
+# Then install statsmodels:
+pip install statsmodels
+```
+
+**Issue 4: Permission errors**
+```bash
+# Use --user flag:
+pip install --user yfinance matplotlib pandas numpy statsmodels scikit-learn
+```
+
+**Issue 5: Conflicting versions**
+```bash
+# Create a virtual environment:
+python -m venv time_series_env
+source time_series_env/bin/activate  # On Windows: time_series_env\Scripts\activate
+pip install yfinance matplotlib pandas numpy statsmodels scikit-learn
+```
+
+### Optional Enhancements
+
+**For faster computations:**
+```bash
+pip install numba  # JIT compilation for numpy
+```
+
+**For Jupyter Notebook integration:**
+```bash
+pip install jupyter notebook ipython
+```
+
+**For enhanced data export:**
+```bash
+pip install openpyxl xlsxwriter  # Excel file support
+```
+
+### Project Structure
+
+```
+time-series-analysis/
+│
+├── Time-Series.py           # Main program
+├── requirements.txt         # Dependency list
+├── check_dependencies.py    # Verification script
+├── README.md               # Documentation
+│
+├── data/                   # Downloaded CSV files
+│   ├── AAPL.csv
+│   ├── GOOGL.csv
+│   └── ...
+│
+└── output/                 # Generated charts (optional)
+    ├── AAPL_technical.png
+    ├── AAPL_forecast.png
+    └── ...
+```
+
+### Quick Start After Installation
+
+1. **Verify dependencies:**
+```bash
+python check_dependencies.py
+```
+
+2. **Test the program:**
+```bash
+python Time-Series.py AAPL 2023-01-01
+```
+
+3. **Run with forecasting:**
+```bash
+python Time-Series.py AAPL 2020-01-01 --smooth
+```
 
 ---
 
@@ -132,7 +309,7 @@ data = download_stock_data("AAPL", "2020-01-01", "2024-12-31")
 **What it does:**
 - Measures how much the stock price fluctuates
 - Uses standard deviation of returns
-- Annualised to show yearly volatility
+- Annualized to show yearly volatility
 - Rolling 30-day window shows changing volatility over time
 
 **Why it matters:**
@@ -174,7 +351,7 @@ data = download_stock_data("AAPL", "2020-01-01", "2024-12-31")
 
 ---
 
-## Part 3: Visualisation
+## Part 3: Visualization
 
 ### 8. **Basic Stock Charts** (`plot_stock_data`)
 **Creates:**
@@ -231,7 +408,7 @@ This gives you a complete technical view at a glance.
 
 ### 12. **ARIMA Model** (`fit_arima_model`)
 **What it is:**
-- **A**uto**R**egressive **I**ntegrated **M**oving **A**verage
+- **AR**uto**R**egressive **I**ntegrated **M**oving **A**verage
 - Three parameters: (p, d, q)
   - **p:** Number of lag observations (how many past values to use)
   - **d:** Degree of differencing (how many times to difference data)
@@ -341,7 +518,7 @@ All models calculate four key metrics:
 
 **RMSE (Root Mean Square Error):**
 - Average prediction error in dollars
-- Penalises large errors heavily
+- Penalizes large errors heavily
 - Lower is better
 - Example: RMSE = $5 means predictions off by ~$5 on average
 
@@ -358,7 +535,7 @@ All models calculate four key metrics:
 
 **AIC (Akaike Information Criterion):**
 - Balances model accuracy vs complexity
-- Penalises models with too many parameters
+- Penalizes models with too many parameters
 - Use for comparing models (lower is better)
 - Helps prevent overfitting
 
@@ -410,7 +587,7 @@ AIC         5234.12         5456.78         5198.45         Holt
 - Generates point forecasts
 - Uncertainty increases with time horizon
 
-### 23. **Forecast Visualisation**
+### 23. **Forecast Visualization**
 **Charts show:**
 - **Blue line:** Training data (what model learned from)
 - **Green line:** Actual test data (ground truth)
@@ -515,7 +692,7 @@ python Time-Series.py AAPL 2020-01-01 2024-12-31 --arima --smooth
    - Forecast next 30 days
 
 8. **Fit SES:**
-   - Alpha: 0.85 (optimised)
+   - Alpha: 0.85 (optimized)
    - RMSE: $15.23
    - MAPE: 2.67%
 
@@ -620,7 +797,7 @@ vs.
 - ✓ Handles trend + seasonality
 - ✓ Flexible configurations
 - ✗ Needs longer data history
-- ✗ More parameters to optimise
+- ✗ More parameters to optimize
 - ✗ Can be unstable
 
 ---
@@ -692,11 +869,11 @@ vs.
 This program is a complete stock analysis and forecasting toolkit that:
 
 1. **Downloads** historical stock data
-2. **Analyses** with technical indicators (RSI, MAs, Bollinger Bands, etc.)
-3. **Visualises** trends and patterns with professional charts
+2. **Analyzes** with technical indicators (RSI, MAs, Bollinger Bands, etc.)
+3. **Visualizes** trends and patterns with professional charts
 4. **Tests** for statistical properties (stationarity, autocorrelation)
 5. **Forecasts** future prices using 5 different models
 6. **Compares** model performance with robust metrics
 7. **Outputs** actionable insights and predictions
 
-It combines traditional technical analysis with modern time-series forecasting to give you a comprehensive view of stock behaviour and potential future movement.
+It combines traditional technical analysis with modern time-series forecasting to give you a comprehensive view of stock behavior and potential future movement.
