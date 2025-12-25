@@ -228,7 +228,7 @@ pip install openpyxl xlsxwriter  # Excel file support
 ```
 time-series-analysis/
 │
-├── Time-Series.py           # Main program
+├── Time-Series-Analysis.py           # Main program
 ├── requirements.txt         # Dependency list
 ├── check_dependencies.py    # Verification script
 ├── README.md               # Documentation
@@ -253,12 +253,12 @@ python check_dependencies.py
 
 2. **Test the program:**
 ```bash
-python Time-Series.py AAPL 2023-01-01
+python Time-Series-Analysis.py AAPL 2023-01-01
 ```
 
 3. **Run with forecasting:**
 ```bash
-python Time-Series.py AAPL 2020-01-01 --smooth
+python Time-Series-Analysis.py AAPL 2020-01-01 --smooth
 ```
 
 ---
@@ -607,44 +607,44 @@ AIC         5234.12         5456.78         5198.45         Holt
 
 **Basic usage:**
 ```bash
-python Time-Series.py <TICKER> [START_DATE] [END_DATE] [OPTIONS]
+python Time-Series-Analysis.py <TICKER> [START_DATE] [END_DATE] [OPTIONS]
 ```
 
 **Examples:**
 
 **1. Just technical analysis (no forecasting):**
 ```bash
-python Time-Series.py AAPL
+python Time-Series-Analysis.py AAPL
 ```
 Shows charts and indicators, no predictions.
 
 **2. ARIMA forecasting:**
 ```bash
-python Time-Series.py AAPL 2020-01-01 --arima
+python Time-Series-Analysis.py AAPL 2020-01-01 --arima
 ```
 Downloads data from 2020, fits ARIMA(1,1,1), forecasts 30 days.
 
 **3. Auto-select best ARIMA:**
 ```bash
-python Time-Series.py TSLA 2020-01-01 --auto
+python Time-Series-Analysis.py TSLA 2020-01-01 --auto
 ```
 Tests hundreds of ARIMA models, picks best one.
 
 **4. All exponential smoothing models:**
 ```bash
-python Time-Series.py GOOGL 2020-01-01 --smooth
+python Time-Series-Analysis.py GOOGL 2020-01-01 --smooth
 ```
 Fits SES, Holt, and Holt-Winters, compares them.
 
 **5. Auto-optimise Holt-Winters:**
 ```bash
-python Time-Series.py MSFT 2020-01-01 --auto-smooth
+python Time-Series-Analysis.py MSFT 2020-01-01 --auto-smooth
 ```
 Finds best seasonal configuration automatically.
 
 **6. Compare everything:**
 ```bash
-python Time-Series.py NVDA 2020-01-01 --arima --sarima --smooth
+python Time-Series-Analysis.py NVDA 2020-01-01 --arima --sarima --smooth
 ```
 Fits 5 models (ARIMA, SARIMA, SES, Holt, Holt-Winters), compares all.
 
@@ -652,7 +652,7 @@ Fits 5 models (ARIMA, SARIMA, SES, Holt, Holt-Winters), compares all.
 
 **Input:**
 ```bash
-python Time-Series.py AAPL 2020-01-01 2024-12-31 --arima --smooth
+python Time-Series-Analysis.py AAPL 2020-01-01 2024-12-31 --arima --smooth
 ```
 
 **What happens:**
