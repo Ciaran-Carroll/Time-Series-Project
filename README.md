@@ -535,7 +535,7 @@ All models calculate four key metrics:
 
 **AIC (Akaike Information Criterion):**
 - Balances model accuracy vs complexity
-- Penalizes models with too many parameters
+- Penalises models with too many parameters
 - Use for comparing models (lower is better)
 - Helps prevent overfitting
 
@@ -587,9 +587,9 @@ AIC         5234.12         5456.78         5198.45         Holt
 - Generates point forecasts
 - Uncertainty increases with time horizon
 
-### 23. **Forecast Visualization**
+### 23. **Forecast Visualisation**
 **Charts show:**
-- **Blue line:** Training data (what model learned from)
+- **Blue line:** Training data (what the model learned from)
 - **Green line:** Actual test data (ground truth)
 - **Red dashed line:** Model predictions on test set
 - **Orange dotted line:** Future forecast (next 30 days)
@@ -636,7 +636,7 @@ python Time-Series.py GOOGL 2020-01-01 --smooth
 ```
 Fits SES, Holt, and Holt-Winters, compares them.
 
-**5. Auto-optimize Holt-Winters:**
+**5. Auto-optimise Holt-Winters:**
 ```bash
 python Time-Series.py MSFT 2020-01-01 --auto-smooth
 ```
@@ -692,7 +692,7 @@ python Time-Series.py AAPL 2020-01-01 2024-12-31 --arima --smooth
    - Forecast next 30 days
 
 8. **Fit SES:**
-   - Alpha: 0.85 (optimized)
+   - Alpha: 0.85 (optimised)
    - RMSE: $15.23
    - MAPE: 2.67%
 
@@ -797,7 +797,7 @@ vs.
 - ✓ Handles trend + seasonality
 - ✓ Flexible configurations
 - ✗ Needs longer data history
-- ✗ More parameters to optimize
+- ✗ More parameters to optimise
 - ✗ Can be unstable
 
 ---
@@ -869,8 +869,8 @@ vs.
 This program is a complete stock analysis and forecasting toolkit that:
 
 1. **Downloads** historical stock data
-2. **Analyzes** with technical indicators (RSI, MAs, Bollinger Bands, etc.)
-3. **Visualizes** trends and patterns with professional charts
+2. **Analyses** with technical indicators (RSI, MAs, Bollinger Bands, etc.)
+3. **Visualises** trends and patterns with professional charts
 4. **Tests** for statistical properties (stationarity, autocorrelation)
 5. **Forecasts** future prices using 5 different models
 6. **Compares** model performance with robust metrics
