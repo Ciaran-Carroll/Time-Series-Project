@@ -408,7 +408,7 @@ This gives you a complete technical view at a glance.
 
 ### 12. **ARIMA Model** (`fit_arima_model`)
 **What it is:**
-- **AR**uto**R**egressive **I**ntegrated **M**oving **A**verage
+- **A**uto**R**egressive **I**ntegrated **M**oving **A**verage
 - Three parameters: (p, d, q)
   - **p:** Number of lag observations (how many past values to use)
   - **d:** Degree of differencing (how many times to difference data)
