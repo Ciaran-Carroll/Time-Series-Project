@@ -49,8 +49,8 @@ conda install -c conda-forge yfinance matplotlib pandas numpy statsmodels scikit
 - **Installation:** `pip install yfinance`
 
 **2. matplotlib** (`from matplotlib import pyplot as plt`)
-- **Purpose:** Creates all visualizations and charts
-- **Used for:** Price charts, technical indicator plots, forecast visualizations
+- **Purpose:** Creates all visualisations and charts
+- **Used for:** Price charts, technical indicator plots, forecast visualisations
 - **Submodules used:**
   - `matplotlib.pyplot` - Main plotting interface
   - `matplotlib.dates` - Date formatting on x-axes
@@ -71,11 +71,11 @@ conda install -c conda-forge yfinance matplotlib pandas numpy statsmodels scikit
 - **Installation:** `pip install numpy`
 
 **5. statsmodels** (multiple imports)
-- **Purpose:** Statistical modeling and time-series analysis
+- **Purpose:** Statistical modelling and time-series analysis
 - **Used for:** ARIMA, SARIMA, Exponential Smoothing models
 - **Submodules used:**
-  - `statsmodels.tsa.arima.model.ARIMA` - ARIMA modeling
-  - `statsmodels.tsa.statespace.sarimax.SARIMAX` - SARIMA modeling
+  - `statsmodels.tsa.arima.model.ARIMA` - ARIMA modelling
+  - `statsmodels.tsa.statespace.sarimax.SARIMAX` - SARIMA modelling
   - `statsmodels.tsa.holtwinters` - Exponential smoothing (SES, Holt, Holt-Winters)
   - `statsmodels.tsa.stattools.adfuller` - Stationarity testing
   - `statsmodels.graphics.tsaplots` - ACF/PACF plotting
@@ -309,7 +309,7 @@ data = download_stock_data("AAPL", "2020-01-01", "2024-12-31")
 **What it does:**
 - Measures how much the stock price fluctuates
 - Uses standard deviation of returns
-- Annualized to show yearly volatility
+- Annualised to show yearly volatility
 - Rolling 30-day window shows changing volatility over time
 
 **Why it matters:**
@@ -351,7 +351,7 @@ data = download_stock_data("AAPL", "2020-01-01", "2024-12-31")
 
 ---
 
-## Part 3: Visualization
+## Part 3: Visualisation
 
 ### 8. **Basic Stock Charts** (`plot_stock_data`)
 **Creates:**
@@ -518,7 +518,7 @@ All models calculate four key metrics:
 
 **RMSE (Root Mean Square Error):**
 - Average prediction error in dollars
-- Penalizes large errors heavily
+- Penalises large errors heavily
 - Lower is better
 - Example: RMSE = $5 means predictions off by ~$5 on average
 
